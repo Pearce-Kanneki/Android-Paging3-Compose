@@ -3,9 +3,11 @@ package com.kanneki.paging3compose.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kanneki.paging3compose.util.Constants.INSPLASH_IMAGE_TABLE
+import com.kanneki.paging3compose.util.Constants.UNSPLASH_IMAGE_TABLE
+import kotlinx.serialization.Serializable
 
-@Entity(tableName = INSPLASH_IMAGE_TABLE)
+@Serializable
+@Entity(tableName = UNSPLASH_IMAGE_TABLE)
 data class UnsplashImage(
     @PrimaryKey(autoGenerate = false)
     val id: String,
