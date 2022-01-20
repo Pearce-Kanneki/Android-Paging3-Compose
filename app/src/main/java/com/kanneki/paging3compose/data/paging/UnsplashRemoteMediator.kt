@@ -5,7 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.kanneki.paging3compose.data.local.UnsplashImageDatabse
+import com.kanneki.paging3compose.data.local.UnsplashImageDatabase
 import com.kanneki.paging3compose.data.remote.UnsplashApi
 import com.kanneki.paging3compose.model.UnsplashImage
 import com.kanneki.paging3compose.model.UnsplashRemoteKeys
@@ -14,13 +14,13 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @ExperimentalPagingApi
-class UnsplashRemoteMediator @Inject constructor(
+class UnsplashRemoteMediator(
     private val unsplashApi: UnsplashApi,
-    private val unsplashImageDatabse: UnsplashImageDatabse
+    private val unsplashImageDatabase: UnsplashImageDatabase
 ) : RemoteMediator<Int, UnsplashImage>() {
 
-    private val unsplashImageDao = unsplashImageDatabse.unsplashImageDao()
-    private val unsplashRemoteKeysDao = unsplashImageDatabse.unsplashRemoteKeysDao()
+    private val unsplashImageDao = unsplashImageDatabase.unsplashImageDao()
+    private val unsplashRemoteKeysDao = unsplashImageDatabase.unsplashRemoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -54,9 +54,9 @@ class UnsplashRemoteMediator @Inject constructor(
             val endOfPaginationReached = response.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
-            val nextPage = if (endOfPaginationReached) null else currentPage - 1
+            val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            unsplashImageDatabse.withTransaction {
+            unsplashImageDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     unsplashImageDao.deleteAllImages()
                     unsplashRemoteKeysDao.deleteAllRemoteKeys()
@@ -68,8 +68,8 @@ class UnsplashRemoteMediator @Inject constructor(
                         nextPage = nextPage
                     )
                 }
-                unsplashRemoteKeysDao.addAllRemoKeys(keys)
-                unsplashImageDao.addImages(response)
+                unsplashRemoteKeysDao.addAllRemoKeys(remoteKeys = keys)
+                unsplashImageDao.addImages(images = response)
             }
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -93,7 +93,7 @@ class UnsplashRemoteMediator @Inject constructor(
     ): UnsplashRemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { unsplashImage ->
-                unsplashRemoteKeysDao.getRemoteKeys(unsplashImage.id)
+                unsplashRemoteKeysDao.getRemoteKeys(id = unsplashImage.id)
             }
     }
 
@@ -102,7 +102,7 @@ class UnsplashRemoteMediator @Inject constructor(
     ): UnsplashRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { unsplashImage ->
-                unsplashRemoteKeysDao.getRemoteKeys(unsplashImage.id)
+                unsplashRemoteKeysDao.getRemoteKeys(id = unsplashImage.id)
             }
     }
 }

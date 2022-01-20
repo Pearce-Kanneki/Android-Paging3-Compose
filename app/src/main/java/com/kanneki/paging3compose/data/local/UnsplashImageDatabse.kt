@@ -8,7 +8,7 @@ import com.kanneki.paging3compose.model.UnsplashImage
 import com.kanneki.paging3compose.model.UnsplashRemoteKeys
 
 @Database(entities = [UnsplashImage::class, UnsplashRemoteKeys::class], version = 1)
-abstract class UnsplashImageDatabse: RoomDatabase() {
+abstract class UnsplashImageDatabase: RoomDatabase() {
 
     abstract fun unsplashImageDao(): UnsplashImageDao
     abstract fun unsplashRemoteKeysDao(): UnsplashRemoteKeyDao

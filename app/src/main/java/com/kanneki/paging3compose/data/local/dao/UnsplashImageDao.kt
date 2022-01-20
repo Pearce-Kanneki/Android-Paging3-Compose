@@ -10,12 +10,12 @@ import com.kanneki.paging3compose.model.UnsplashImage
 @Dao
 interface UnsplashImageDao {
 
-    @Query("SELECT * FROM unsplash_remote_keys_table")
+    @Query("SELECT * FROM unsplash_image_table")
     fun getAllImages(): PagingSource<Int, UnsplashImage>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addImages(images: List<UnsplashImage>)
 
-    @Query("DELETE FROM unsplash_remote_keys_table")
+    @Query("DELETE FROM unsplash_image_table")
     suspend fun deleteAllImages()
 }

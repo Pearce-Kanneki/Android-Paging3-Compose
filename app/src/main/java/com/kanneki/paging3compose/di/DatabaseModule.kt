@@ -2,7 +2,7 @@ package com.kanneki.paging3compose.di
 
 import android.content.Context
 import androidx.room.Room
-import com.kanneki.paging3compose.data.local.UnsplashImageDatabse
+import com.kanneki.paging3compose.data.local.UnsplashImageDatabase
 import com.kanneki.paging3compose.util.Constants.UNSPLASH_DATABASE
 import dagger.Module
 import dagger.Provides
@@ -17,10 +17,10 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): UnsplashImageDatabse {
+    fun provideDatabase(@ApplicationContext context: Context): UnsplashImageDatabase {
         return Room.databaseBuilder(
             context,
-            UnsplashImageDatabse::class.java,
+            UnsplashImageDatabase::class.java,
             UNSPLASH_DATABASE
         ).build()
     }
