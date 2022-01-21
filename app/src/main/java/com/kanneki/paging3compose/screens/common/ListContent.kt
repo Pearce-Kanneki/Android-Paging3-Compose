@@ -69,7 +69,7 @@ fun UnsplashItem(unsplashImage: UnsplashImage) {
             .clickable {
                 val browseIntent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://unsplash.com/@${unsplashImage.user.username}?utm_source=DemoApp&utm_medium=referral")
+                    Uri.parse("${Constants.IMG_URL}${unsplashImage.user.username}?utm_source=DemoApp&utm_medium=referral")
                 )
                 startActivity(context, browseIntent, null)
             }

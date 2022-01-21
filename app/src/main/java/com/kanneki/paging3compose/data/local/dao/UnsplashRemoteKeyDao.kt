@@ -10,7 +10,7 @@ import com.kanneki.paging3compose.model.UnsplashRemoteKeys
 interface UnsplashRemoteKeyDao {
 
     @Query("SELECT * FROM unsplash_remote_keys_table WHERE id=:id")
-    fun getRemoteKeys(id: String): UnsplashRemoteKeys
+    suspend fun getRemoteKeys(id: String): UnsplashRemoteKeys
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAllRemoKeys(remoteKeys: List<UnsplashRemoteKeys>)
